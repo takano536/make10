@@ -18,10 +18,28 @@ Fraction operator+(const Fraction& frac) { return frac; }
 Fraction operator-(const Fraction& frac) { return Fraction(-frac.numer, frac.denom); }
 
 Fraction operator+(const Fraction& lhs, const Fraction& rhs) {
-    return Fraction(lhs.numer * rhs.denom + rhs.numer * lhs.denom, lhs.denom * rhs.denom);
+    int denom = std::lcm(lhs.denom, rhs.denom);
+    long long numer = static_cast<long long>(lhs.numer) * (denom / lhs.denom);
+    numer += static_cast<long long>(rhs.numer) * (denom / rhs.denom);
+
+    bool is_overflow = false;
+    is_overflow |= numer > std::numeric_limits<int>::max();
+    is_overflow |= numer < std::numeric_limits<int>::min();
+    if (is_overflow) throw std::overflow_error("Addition overflow.");
+
+    return Fraction(numer, denom);
 }
 Fraction operator-(const Fraction& lhs, const Fraction& rhs) {
-    return Fraction(lhs.numer * rhs.denom - rhs.numer * lhs.denom, lhs.denom * rhs.denom);
+    int denom = std::lcm(lhs.denom, rhs.denom);
+    long long numer = static_cast<long long>(lhs.numer) * (denom / lhs.denom);
+    numer -= static_cast<long long>(rhs.numer) * (denom / rhs.denom);
+
+    bool is_overflow = false;
+    is_overflow |= numer > std::numeric_limits<int>::max();
+    is_overflow |= numer < std::numeric_limits<int>::min();
+    if (is_overflow) throw std::overflow_error("Subtraction overflow.");
+
+    return Fraction(numer, denom);
 }
 Fraction operator*(const Fraction& lhs, const Fraction& rhs) {
     std::pair<int, int> gcd = {std::gcd(lhs.numer, rhs.denom), std::gcd(lhs.denom, rhs.numer)};
