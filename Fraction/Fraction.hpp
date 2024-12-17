@@ -35,7 +35,6 @@ class Fraction {
     Fraction& operator++();
     Fraction& operator--();
 
-    friend std::istream& operator>>(std::istream& is, Fraction& frac);
     friend std::ostream& operator<<(std::ostream& os, const Fraction& frac);
 
   private:
