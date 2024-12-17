@@ -1,0 +1,31 @@
+---
+AlignConsecutiveAssignments: false                    # 連続する行の = の位置を揃える
+AlignConsecutiveDeclarations: false                   # 連続する行の宣言の位置を揃える
+AlignTrailingComments: true                           # 連続する行のコメントの位置揃える
+AlignAfterOpenBracket: BlockIndent                    # 引数は左揃え
+AlignConsecutiveMacros: true                          # マクロの位置を揃える
+AlignOperands: true                                   # 二項演算子と三項演算子を揃える
+ColumnLimit: 0                                        # 1行の文字数を制限する (0で無制限)
+IncludeBlocks: Preserve                               # includeを名前順にソートする
+IndentCaseLabels: true                                # swicth分のcaseにインデントを設定する
+IndentWidth: 4                                        # インデントの幅
+PointerAlignment: Left                                # ポインターの * & は変数宣言の位置
+SpaceAfterCStyleCast: false                           # キャストの後ろにスペースを入れない
+SpaceBeforeParens: ControlStatements                  # 制御文の ( の前にスペースを入れる
+SpacesBeforeTrailingComments: 2                       # コメントの前のスペースの数
+AllowShortFunctionsOnASingleLine: All                 # 関数を一行で書く
+AllowShortBlocksOnASingleLine: false                  # if や for 文で {} ブロックがある場合は行数に関わらず、改行する。
+AllowShortIfStatementsOnASingleLine: true             # if 文で {} ブロックなしの場合に1行にする。
+AllowShortLoopsOnASingleLine: true                    # for 文で {} ブロックなしの場合に1行にする。
+AllowShortCaseLabelsOnASingleLine: true               # switch 文で case を一行にする
+ConstructorInitializerAllOnOneLineOrOnePerLine: false # コンストラクタの初期化部分が行に収まらない場合、1行ずつ表示する。
+BreakBeforeBraces: Custom                             # { } の位置をカスタム設定する
+BraceWrapping:                                        # { } の位置, "BreakBeforeBraces: Custom" の場合に有効, true なら独立行にする
+    AfterControlStatement: false
+    AfterEnum: true
+    AfterFunction: false
+    AfterStruct: false
+    AfterUnion: true
+    AfterExternBlock: false
+    BeforeCatch: false
+    BeforeElse: false
