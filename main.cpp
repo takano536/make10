@@ -1,16 +1,10 @@
 #include "Fraction/Fraction.hpp"
+#include "RpnCalculator/RpnCalculator.hpp"
 
 #include <iostream>
 
 int main() {
-    Fraction a(3, 2);
-    Fraction b(8, 6);
-
-    std::cout << a << " + " << b << " = " << a + b << std::endl;
-    std::cout << a << " - " << b << " = " << a - b << std::endl;
-    std::cout << a << " * " << b << " = " << a * b << std::endl;
-    std::cout << a << " / " << b << " = " << a / b << std::endl;
-
-    std::cout << a << " + " << 3 << " = " << a + 3 << std::endl;
+    std::vector<std::string> formula = {"1", "5", "+", "2", "3", "+", "*"};
+    std::cout << RpnCalculator::calculate(formula) << std::endl;
     return 0;
 }

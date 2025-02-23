@@ -20,6 +20,13 @@ class Fraction {
     friend Fraction operator*(const Fraction& lhs, const Fraction& rhs);
     friend Fraction operator/(const Fraction& lhs, const Fraction& rhs);
 
+    bool operator==(const int rhs) const;
+    bool operator!=(const int rhs) const;
+    bool operator<(const int rhs) const;
+    bool operator<=(const int rhs) const;
+    bool operator>(const int rhs) const;
+    bool operator>=(const int rhs) const;
+
     bool operator==(const Fraction& rhs) const;
     bool operator!=(const Fraction& rhs) const;
     bool operator<(const Fraction& rhs) const;

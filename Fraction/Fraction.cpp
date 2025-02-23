@@ -70,6 +70,13 @@ Fraction operator/(const Fraction& lhs, const Fraction& rhs) {
     return Fraction(numer, denom);
 }
 
+bool Fraction::operator==(const int rhs) const { return this->numer == rhs && this->denom == 1; }
+bool Fraction::operator!=(const int rhs) const { return !(*this == rhs); }
+bool Fraction::operator<(const int rhs) const { return *this < Fraction(rhs); }
+bool Fraction::operator<=(const int rhs) const { return *this <= Fraction(rhs); }
+bool Fraction::operator>(const int rhs) const { return *this > Fraction(rhs); }
+bool Fraction::operator>=(const int rhs) const { return *this >= Fraction(rhs); }
+
 bool Fraction::operator==(const Fraction& rhs) const { return this->numer == rhs.numer && this->denom == rhs.denom; }
 bool Fraction::operator!=(const Fraction& rhs) const { return !(*this == rhs); }
 

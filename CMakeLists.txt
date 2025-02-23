@@ -5,4 +5,5 @@ add_executable(
     main 
     ./main.cpp 
     ./Fraction/Fraction.cpp
+    ./RpnCalculator/RpnCalculator.cpp
 )
