@@ -3,11 +3,11 @@
 #include <iostream>
 
 class Fraction {
-  private:
+private:
     int numer;
     int denom;
 
-  public:
+public:
     Fraction();
     Fraction(int numer);
     Fraction(int numer, int denom);
@@ -44,6 +44,6 @@ class Fraction {
 
     friend std::ostream& operator<<(std::ostream& os, const Fraction& frac);
 
-  private:
+private:
     void reduce();
 };
