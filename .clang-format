@@ -9,6 +9,7 @@ ColumnLimit: 0                                        # 1行の文字数を制�
 IncludeBlocks: Preserve                               # includeを名前順にソートする
 IndentCaseLabels: true                                # swicth分のcaseにインデントを設定する
 IndentWidth: 4                                        # インデントの幅
+AccessModifierOffset: -4                              # アクセス修飾子の位置
 PointerAlignment: Left                                # ポインターの * & は変数宣言の位置
 SpaceAfterCStyleCast: false                           # キャストの後ろにスペースを入れない
 SpaceBeforeParens: ControlStatements                  # 制御文の ( の前にスペースを入れる
