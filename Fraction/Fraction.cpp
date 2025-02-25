@@ -10,7 +10,7 @@ Fraction::Fraction() : numer(0), denom(1) {}
 Fraction::Fraction(int numer) : numer(numer), denom(1) {}
 
 Fraction::Fraction(int numer, int denom) : numer(numer), denom(denom) {
-    if (denom == 0) throw std::invalid_argument("Denominator cannot be zero.");
+    if (denom == 0) throw std::runtime_error("Zero division.");
     reduce();
 }
 
@@ -43,6 +43,9 @@ Fraction operator-(const Fraction& lhs, const Fraction& rhs) {
 }
 Fraction operator*(const Fraction& lhs, const Fraction& rhs) {
     std::pair<int, int> gcd = {std::gcd(lhs.numer, rhs.denom), std::gcd(lhs.denom, rhs.numer)};
+
+    if (gcd.first == 0 || gcd.second == 0) throw std::runtime_error("Zero division.");
+
     long long numer = static_cast<long long>(lhs.numer / gcd.first) * (rhs.numer / gcd.second);
     long long denom = static_cast<long long>(lhs.denom / gcd.second) * (rhs.denom / gcd.first);
 
@@ -57,6 +60,9 @@ Fraction operator*(const Fraction& lhs, const Fraction& rhs) {
 }
 Fraction operator/(const Fraction& lhs, const Fraction& rhs) {
     std::pair<int, int> gcd = {std::gcd(lhs.numer, rhs.numer), std::gcd(lhs.denom, rhs.denom)};
+
+    if (gcd.first == 0 || gcd.second == 0) throw std::runtime_error("Zero division.");
+
     long long numer = static_cast<long long>(lhs.numer / gcd.first) * (rhs.denom / gcd.second);
     long long denom = static_cast<long long>(lhs.denom / gcd.second) * (rhs.numer / gcd.first);
 
@@ -115,7 +121,8 @@ Fraction& Fraction::operator--() {
     return *this;
 }
 
-std::ostream& operator<<(std::ostream& os, const Fraction& frac) {
+std::ostream&
+operator<<(std::ostream& os, const Fraction& frac) {
     os << frac.numer;
     if (frac.denom != 1) os << '/' << frac.denom;
     return os;
