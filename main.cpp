@@ -1,3 +1,4 @@
+#include "FormulaConverter/FormulaConverter.hpp"
 #include "Fraction/Fraction.hpp"
 #include "RpnCalculator/RpnCalculator.hpp"
 #include "Tokenizer/Tokenizer.hpp"
@@ -11,9 +12,15 @@ int main() {
 
     std::cout << "Formula: " << formula << std::endl;
 
-    auto tokens = Tokenizer::tokenize(formula);
-    std::cout << "Tokens number: " << tokens.size() << std::endl;
-    for (const auto& token : tokens) std::cout << token << std::endl;
+    const auto tokens = Tokenizer::tokenize(formula);
+
+    const auto rpn = FormulaConverter::infix2rpn(tokens);
+
+    const auto rpn_formula = Tokenizer::join(rpn);
+    std::cout << "RPN formula: " << rpn_formula << std::endl;
+
+    const auto result = RpnCalculator::calculate(rpn);
+    std::cout << "Result: " << result << std::endl;
 
     return 0;
 }

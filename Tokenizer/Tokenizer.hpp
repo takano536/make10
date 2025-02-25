@@ -20,6 +20,7 @@ private:
 
 public:
     static std::vector<std::string> tokenize(const std::string& formula);
+    static std::string join(const std::vector<std::string>& tokens);
 
 private:
     static bool is_operator(const char& letter);

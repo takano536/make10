@@ -36,6 +36,13 @@ std::vector<std::string> Tokenizer::tokenize(const std::string& formula) {
     return tokens;
 }
 
+std::string Tokenizer::join(const std::vector<std::string>& tokens) {
+    std::string formula;
+    for (const auto& token : tokens) formula += token + " ";
+    formula.pop_back();
+    return formula;
+}
+
 bool Tokenizer::is_operator(const char& letter) {
     for (const auto& op : OPERATORS) {
         if (op.front() == letter) return true;
