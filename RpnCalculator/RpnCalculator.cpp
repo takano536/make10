@@ -25,12 +25,12 @@ Fraction RpnCalculator::calculate(const std::vector<std::string>& formula) {
         stack.push(operate(lhs, rhs, str));
     }
 
-    if (stack.size() != 1) throw std::invalid_argument("Invalid formula.");
+    if (stack.size() != 1) throw std::runtime_error("Invalid formula.");
     return stack.top();
 }
 
 Fraction RpnCalculator::operate(const Fraction& lhs, const Fraction& rhs, const std::string op) {
-    if (!is_operater(op)) throw std::invalid_argument("Invalid operator.");
+    if (!is_operater(op)) throw std::runtime_error("Invalid formula.");
     return OPERATORS.at(op)(lhs, rhs);
 }
 

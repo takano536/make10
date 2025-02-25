@@ -81,7 +81,7 @@ std::vector<std::string> FormulaConverter::rpn2infix(const std::vector<std::stri
         const bool is_operator = OP_PRIO_FOR_INFIX.find(token) != OP_PRIO_FOR_INFIX.end();
         if (is_operator) {
 
-            if (stack.size() < 2) throw std::runtime_error("Invalid formula");
+            if (stack.size() < 2) throw std::runtime_error("Invalid formula.");
 
             const auto [rhs, rhs_prio] = stack.top();
             stack.pop();
@@ -96,10 +96,10 @@ std::vector<std::string> FormulaConverter::rpn2infix(const std::vector<std::stri
             continue;
         }
 
-        throw std::runtime_error("Invalid formula");
+        throw std::runtime_error("Invalid formula.");
     }
 
-    if (stack.size() != 1) throw std::runtime_error("Invalid formula");
+    if (stack.size() != 1) throw std::runtime_error("Invalid formula.");
 
     const auto [expr, _] = stack.top();
     return Tokenizer::tokenize(expr);
