@@ -5,84 +5,86 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
 #include <iostream>
-#include <set>
 #include <string>
+#include <utility>
 #include <vector>
+
+namespace myfuncs {
+
+void generate_nums(const std::pair<int, int>& range, const int& length, const std::string& curr, std::vector<std::string>& nums) {
+    if (curr.length() == length) {
+        nums.push_back(curr);
+        return;
+    }
+
+    const auto& [start, end] = range;
+    for (int i = start; i <= end; i++) generate_nums({i, end}, length, curr + std::to_string(i), nums);
+    return;
+}
+
+static constexpr int powi(const int& x, const int& y) {
+    int result = 1;
+    for (int i = 0; i < y; i++) result *= x;
+    return result;
+}
+
+}  // namespace myfuncs
 
 int main() {
     const std::array<std::string, 4> OPS = {"+", "-", "*", "/"};
-    constexpr int TARGET = 10;
-    constexpr int SIZE = 4;
+    static constexpr int TARGET = 10;
+    static constexpr int SIZE = 4;
 
-    std::set<std::string> has_visited;
+    std::vector<std::string> nums;
+    myfuncs::generate_nums({0, 9}, SIZE, "", nums);
 
-    for (int i = 0; i < std::pow(10, SIZE); i++) {
+    std::vector<std::string> ops;
+    myfuncs::generate_nums({0, 3}, SIZE - 1, "", ops);
 
-        std::string input = std::to_string(i);
-        while (input.size() < 4) input = "0" + input;
+    std::array<std::vector<std::string>, static_cast<std::size_t>(myfuncs::powi(10, SIZE))> results;
 
-        std::sort(input.begin(), input.end());
-        if (has_visited.find(input) != has_visited.end()) continue;
+    for (const auto& num : nums) {
+        for (const auto& op : ops) {
 
-        has_visited.insert(input);
+            std::vector<std::string> rpn_tokens;
+            for (const auto& c : op) rpn_tokens.push_back(OPS[c - '0']);
+            for (const auto& c : num) rpn_tokens.push_back(std::string(1, c));
 
-        std::cout << input << std::endl;
-
-        std::vector<std::string> nums;
-        for (const auto& c : input) nums.push_back(std::string(1, c));
-
-        const std::size_t token_size = nums.size() * 2 - 1;
-
-        auto is_creatable = [](const std::vector<std::string>& tokens, const int& target) {
-            std::vector<std::string> infix;
-            try {
-                infix = FormulaConverter::rpn2infix(tokens);
-            } catch (const std::runtime_error& e) {
-                return false;
-            }
-
-            Fraction result;
-            try {
-                result = RpnCalculator::calculate(tokens);
-            } catch (const std::runtime_error& e) {
-                return false;
-            }
-            if (result != target) return false;
-
-            const auto infix_formula = Tokenizer::join(infix);
-            std::cout << infix_formula << " = " << result << std::endl;
-            return true;
-        };
-
-        auto dfs = [is_creatable, OPS, TARGET, token_size, nums](auto&& f, const int& idx, const std::vector<std::string>& tokens) -> void {
-            if (tokens.size() < token_size) {
-                for (std::size_t i = idx; i < OPS.size(); i++) {
-                    auto next = tokens;
-                    next.push_back(OPS[i]);
-                    f(f, i, next);
-                }
-                return;
-            }
-
-            auto current = tokens;
-            std::sort(current.begin(), current.end());
             do {
-                std::vector<std::string> curr_nums;
-                for (const auto& s : current) {
-                    if (std::all_of(s.begin(), s.end(), [](const char& c) { return std::isdigit(c) || c == '.'; })) {
-                        curr_nums.push_back(s);
-                    }
+
+                std::vector<std::string> infix_tokens;
+                try {
+                    infix_tokens = FormulaConverter::rpn2infix(rpn_tokens);
+                } catch (const std::exception& e) {
+                    continue;
                 }
-                if (curr_nums == nums) is_creatable(current, TARGET);
-            } while (std::next_permutation(current.begin(), current.end()));
 
-            return;
-        };
+                Fraction result = 0;
+                try {
+                    result = RpnCalculator::calculate(rpn_tokens);
+                } catch (const std::exception& e) {
+                    continue;
+                }
 
-        dfs(dfs, 0, nums);
+                if (result != TARGET) continue;
 
+                const auto infix_formula = Tokenizer::join(infix_tokens);
+
+                std::string curr_num;
+                std::copy_if(infix_formula.begin(), infix_formula.end(), std::back_inserter(curr_num), [](const char& c) { return std::isdigit(c); });
+
+                results[std::stoi(curr_num)].push_back(infix_formula);
+
+            } while (std::next_permutation(rpn_tokens.begin(), rpn_tokens.end()));
+        }
+    }
+
+    for (int i = 0; i < myfuncs::powi(10, SIZE); i++) {
+        if (results[i].empty()) continue;
+
+        std::cout << i << ": " << results[i].size() << '\n';
+        for (const auto& res : results[i]) std::cout << res << '\n';
         std::cout << std::endl;
     }
 
